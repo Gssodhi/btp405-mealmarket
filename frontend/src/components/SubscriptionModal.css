@@ -1,0 +1,268 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .form-group {
+    margin: 1rem 0;
+  }
+  
+  .form-select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .meal-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 0.5rem;
+  }
+  
+  .meal-option {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .meal-option.active {
+    background: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+  }
+  
+  .price-summary {
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+  
+  .subscribe-button {
+    width: 100%;
+    padding: 1rem;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .subscribe-button:hover {
+    background: #45a049;
+  }
+  .payment-error {
+    color: #d32f2f;
+    margin: 15px 0;
+    text-align: center;
+  }
+  
+  .subscribe-button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .meal-option:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .loading {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.2rem;
+  }
+  
+  .login-redirect {
+    margin-left: 10px;
+    padding: 0.25rem 0.5rem;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  /* Update these styles without changing your component structure */
+
+.subscription-container {
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 25px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.plan-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.plan-header h2 {
+  color: #2d3436;
+  margin-bottom: 5px;
+}
+
+.plan-duration {
+  margin: 25px 0;
+}
+
+.plan-duration h3, .meals-per-day h3 {
+  color: #636e72;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.plan-option {
+  background: #f5f6fa;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.price-summary {
+  background: #f1f2f6;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 25px 0;
+  text-align: center;
+}
+
+.price-summary h3 {
+  font-size: 24px;
+  color: #2d3436;
+  margin-bottom: 5px;
+}
+
+.price-details {
+  color: #636e72;
+  font-size: 14px;
+}
+
+.confirm-button {
+  width: 100%;
+  padding: 14px;
+  background: #00b894;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.confirm-button:hover {
+  background: #00a884;
+}
+
+.subscription-modal {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 25px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.subscription-modal h2 {
+  text-align: center;
+  color: #2d3436;
+  margin-bottom: 20px;
+}
+
+.plan-section, .meals-section {
+  margin-bottom: 20px;
+}
+
+.plan-section h3, .meals-section h3 {
+  color: #636e72;
+  margin-bottom: 10px;
+}
+
+.plan-options, .meal-options {
+  display: flex;
+  gap: 10px;
+}
+
+.plan-option, .meal-option {
+  flex: 1;
+  padding: 12px;
+  background: #0984e3;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.plan-option.active, .meal-option.active {
+  background: #0984e3;
+  color: white;
+}
+
+.price-summary {
+  background: #f1f2f6;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 25px 0;
+  text-align: center;
+}
+
+.price-summary h3 {
+  font-size: 22px;
+  color: #2d3436;
+  margin-bottom: 5px;
+}
+
+.price-summary p {
+  color: #636e72;
+  font-size: 14px;
+  margin: 0;
+}
+
+.confirm-button {
+  width: 100%;
+  padding: 14px;
+  background: #00b894;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.confirm-button:hover {
+  background: #00a884;
+}
