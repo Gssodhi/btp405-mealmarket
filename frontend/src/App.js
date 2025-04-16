@@ -19,7 +19,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/subscribe" element={<SubscriptionModal />} />
+      <Route path="/" element={<SubscriptionModal />} />
       <Route path="/success" element={<SuccessPage />} />
     </Routes>
   );

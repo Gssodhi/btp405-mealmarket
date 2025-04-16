@@ -1,3 +1,4 @@
+#serializer.py
 from rest_framework import serializers
 from meals.models import DietPlan
 

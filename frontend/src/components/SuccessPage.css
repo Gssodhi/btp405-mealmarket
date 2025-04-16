@@ -59,3 +59,79 @@
   button:disabled {
     background: #cccccc;
   }
+  /* Success Page Styles */
+.success-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f4f4f4;
+  text-align: center;
+  padding: 20px;
+}
+
+.success-page h2 {
+  font-size: 2rem;
+  color: #4CAF50;
+  margin-bottom: 20px;
+}
+
+.success-page p {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+.success-page strong {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.success-page .order-info {
+  margin-top: 30px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+.success-page .order-info h3 {
+  font-size: 1.5rem;
+  color: #4CAF50;
+  margin-bottom: 15px;
+}
+
+.success-page .order-info p {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 10px 0;
+}
+
+.success-page .order-info .order-id {
+  font-size: 1.1rem;
+  color: #888;
+}
+
+.success-page button {
+  margin-top: 20px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.success-page button:hover {
+  background-color: #45a049;
+}
+
+@media screen and (max-width: 768px) {
+  .success-page .order-info {
+    width: 90%;
+  }
+}
