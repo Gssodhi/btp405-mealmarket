@@ -11,7 +11,16 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from datetime import timedelta
+import os
 from pathlib import Path
+
+try:
+    # Load variables from backend/.env if python-dotenv is installed
+    from dotenv import load_dotenv
+
+    load_dotenv(Path(__file__).resolve().parent.parent / '.env')
+except ImportError:
+    pass
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +30,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@1f4^!vmg*6hfk$51a%r1(8n^c=s-1rn!zjv8n@&2&-)#-ala2'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-local-dev-only')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -40,8 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'meals',
-    'rest_framework',  
-     'rest_framework_simplejwt',
+    'rest_framework',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -138,12 +147,12 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51RDpujQ2Dh3TYSF0VxHtNc8n9mX01s9z9CCZVpFA5zdEIlW4NUCSErNy8ADC6WiRKZTswLWfxp2haNnqwM7Bpegb00NwIXxBvB'
-STRIPE_SECRET_KEY = 'sk_test_51RDpujQ2Dh3TYSF0dAXecGx7toiZq1ooEVN1P2V3bRWICqi61IkN3pTfMjsFUU06ksF9X7JvKMf2itizNFLHDmWG00nGqY6BbZ'
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', '')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000"
 ]
-FRONTEND_SUCCESS_URL = 'http://localhost:3000/payment-success'  
-FRONTEND_CANCEL_URL = 'http://localhost:3000/payment-failed'   
+FRONTEND_SUCCESS_URL = 'http://localhost:3000/payment-success'
+FRONTEND_CANCEL_URL = 'http://localhost:3000/payment-failed'

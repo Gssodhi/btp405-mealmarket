@@ -1,166 +1,88 @@
-# Homemade Meals Marketplace App
-**Team 8** | BTP405 Winter 2025 | [GitHub Repo](https://github.com/Gssodhi/btp405-mealmarket)  
+# MealMarket: Homemade Meal Subscriptions
 
-![System Architecture](docs/architecture.png)  
-*Updated Architecture Diagram (Sprint 2)*  
+A full-stack marketplace where customers subscribe to home-cooked meal plans and pay through Stripe Checkout. It has a Django REST API backend with JWT authentication and a React frontend.
 
-## 📌 Project Overview
-An online marketplace connecting home chefs with customers for healthy meal subscriptions with flexible plans.  
+Team project for BTP405 at Seneca Polytechnic, Winter 2025, built over two sprints.
 
-**Key Features**:  
-- 🥗 Dietary-specific plans (Vegan/Vegetarian/Non-Vegetarian/Keto)  
-- ⏱️ Flexible delivery (1-2 meals/day, weekly/monthly plans)  
-- 💳 Secure Stripe payments with PCI compliance  
-- 🔐 JWT authentication for user accounts  
-- 📱 Responsive React frontend  
-- 🚚 Delivery tracking system  
+![Python](https://img.shields.io/badge/Python-Django%205.2-092E20?logo=django&logoColor=white)
+![DRF](https://img.shields.io/badge/Django%20REST%20Framework-JWT-A30000)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![Stripe](https://img.shields.io/badge/Stripe-Checkout-635BFF?logo=stripe&logoColor=white)
 
----
+## Features
 
-## 🛠️ Sprint Progress
+- **Browse meal plans** by diet type (vegetarian, non-vegetarian, vegan), with prices managed in the Django admin
+- **JWT authentication** using Simple JWT: login, token refresh and token verification
+- **Subscription checkout**: pick a plan and meals per day, see a live price calculation, then pay through Stripe Checkout (test mode)
+- **Payment verification**: after Stripe redirects back, the backend confirms the session with Stripe and saves the subscription and delivery address
 
-### ✅ Sprint 1 (Completed)
-#### Backend (Django)
-- DietPlan model with meal types and pricing  
-- Admin dashboard for meal management  
-- SQLite database setup  
+## Architecture (as built)
 
-#### Frontend (React)
-- Basic meal browser UI  
-- Hardcoded data demonstration  
-
-### 🚀 Sprint 2 (Current)
-#### Backend
-- Stripe payment integration  
-- JWT authentication endpoints  
-- Subscription API with webhooks  
-- CORS configuration  
-
-#### Frontend
-- Interactive subscription modal  
-- Real-time price calculator  
-- Payment processing flow  
-- Auth context for user sessions  
-
----
-
-## 📂 Project Structure
-```
-btp405-mealmarket/
-├── backend/ # Django backend
-│ ├── manage.py
-│ ├── backend/ # Project settings
-│ ├── meals/ # Meal plan models/API
-│ ├── payments/ # Stripe integration
-│ └── requirements.txt
-├── frontend/ # React frontend
-│ ├── public/
-│ ├── src/
-│ │ ├── components/ # React components
-│ │ ├── context/ # Auth context
-│ │ ├── styles/ # CSS modules
-│ │ └── App.js
-│ └── package.json
-└── docs/ # Documentation
-├── architecture.png
-├── api_endpoints.md
-├── stripe_guide.md
-└── personas_user_stories.md
+```mermaid
+flowchart LR
+    UI[React frontend<br/>localhost:3000] -->|REST + JWT| API[Django REST API<br/>localhost:8000]
+    API --> DB[(SQLite)]
+    API -->|Checkout Session| STRIPE[Stripe]
+    STRIPE -->|redirect with session_id| UI
 ```
 
----
+The [planning diagram](docs/architecture.png) shows the wider target design from Sprint 1 (PostgreSQL, notifications, delivery tracking). This repo implements the core subscription and payment flow.
 
-## 🚀 Setup Guide
-1. **Clone the repo**:
-   ```bash
-   git clone https://github.com/Gssodhi/btp405-mealmarket.git
-   cd btp405-mealmarket
-   ```
+## API
 
+| Method | Route | Description |
+|---|---|---|
+| `GET` | `/api/meals/` | List diet plans |
+| `POST` | `/api/token/` | Log in and get access + refresh tokens |
+| `POST` | `/api/token/refresh/` | Refresh an access token |
+| `POST` | `/api/token/verify/` | Verify a token |
+| `POST` | `/api/create-checkout-session/` | Create a Stripe Checkout session for a subscription |
+| `GET` | `/api/verify-payment/?session_id=…` | Confirm payment with Stripe |
+| `POST` | `/api/save-delivery-address/` | Save the subscription's delivery details |
 
----
+## Run it locally
 
-## 🚀 Setup Guide
+You'll need Python 3.10+, Node.js 18+ and a free Stripe account in test mode.
 
-### 1. Prerequisites
-- Python 3.8+
-- Node.js 16+
-- Stripe account (test mode)
+**Backend**
 
-### 2. Backend Setup
 ```bash
-# Clone repository
-git clone https://github.com/Gssodhi/btp405-mealmarket.git
-cd btp405-mealmarket
-
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate       # Linux/Mac
-.\venv\Scripts\activate       # Windows
-
-# Install dependencies
 cd backend
+python -m venv venv
+source venv/bin/activate          # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-# Configure environment variables
-echo "STRIPE_SECRET_KEY=sk_test_your_key" > .env
-echo "DJANGO_SECRET_KEY=your_secret_key" >> .env
-
-# Run migrations
+cp .env.example .env              # add your Stripe test keys
 python manage.py migrate
-
-# Start server
+python manage.py createsuperuser  # to add meal plans in /admin
 python manage.py runserver
+```
 
-3. Frontend Setup
-cd ../frontend
+**Frontend**
+
+```bash
+cd frontend
 npm install
-
-# Configure environment
-echo "REACT_APP_STRIPE_PK=pk_test_your_key" > .env
-echo "REACT_APP_API_URL=http://localhost:8000/api" >> .env
-
-# Start development server
+cp .env.example .env              # add your Stripe publishable test key
 npm start
+```
 
----
-🔐 Authentication Flow
-User logs in via /api/token/ endpoint
+Open http://localhost:3000. Use Stripe's test card `4242 4242 4242 4242` with any future expiry date and any CVC.
 
-Receives JWT access/refresh tokens
+## Project structure
 
-Tokens stored in secure HTTP-only cookies
+```
+backend/
+  backend/        Django settings and URL routing
+  meals/          Diet plan and subscription models, Stripe checkout views
+  meals/api/      DRF serializers and views
+frontend/
+  src/components/ Meal list, subscription modal, login, payment success page
+  src/context/    Auth context (JWT storage and refresh)
+docs/             Architecture diagram, personas and user stories
+```
 
-Protected routes validate tokens
+## Docs
 
-## 📜 Documentation
-- [Product Vision](docs/vision_scope.md)  
-- [User Personas & Stories](docs/personas_user_stories.md)  
-- [System Architecture](docs/architecture.png)  
-
----
-💳 Payment Integration
-Frontend creates subscription request
-
-Backend generates Stripe PaymentIntent
-
-Client confirms payment via Stripe.js
-
-Webhook verifies payment completion
-
-System activates meal subscription
-
-## 👥 Team Members
-- [Gurjeet] (Project Manager)  
-- [amusoni] (Backend Developer)  
-- [Navish] (Frontend Developer)  
-- [Nidhi] (Researcher)  
-
-Resources
-Stripe Testing Docs
-
-Django REST Framework
-
-React Documentation
-
-JWT Best Practices
+- [Personas and user stories](docs/personas_user_stories.md)
+- [Planning architecture diagram](docs/architecture.png)

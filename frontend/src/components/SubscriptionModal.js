@@ -6,7 +6,7 @@ import axios from 'axios';
 import './SubscriptionModal.css';
 
 
-const stripePromise = loadStripe('pk_test_51RDpujQ2Dh3TYSF0VxHtNc8n9mX01s9z9CCZVpFA5zdEIlW4NUCSErNy8ADC6WiRKZTswLWfxp2haNnqwM7Bpegb00NwIXxBvB');
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 const SubscriptionModal = ({ meal, onClose }) => {
   const [plan, setPlan] = useState('weekly');
